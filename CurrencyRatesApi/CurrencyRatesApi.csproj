@@ -132,7 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Controllers\CurrencyRates.cs" />
+    <Compile Include="Controllers\CurrencyRatesController.cs" />
     <Compile Include="Domain\ExchangeRates.cs" />
     <Compile Include="Domain\Rate.cs" />
     <Compile Include="Extensions.cs" />
