@@ -44,7 +44,7 @@ namespace CurrencyRatesApi.Tests
         {
             var repo = new ExchangeRatesRepository();
             var rates = repo.GetHistoricalRates(new DateTime(2013,11,1));
-            Assert.AreEqual("USD", rates.BaseCurrencyCode);
+            Assert.AreEqual("2013-11-01",rates.EffectiveDate.ToString("yyyy-MM-dd"));
         }
 
         [Test]
