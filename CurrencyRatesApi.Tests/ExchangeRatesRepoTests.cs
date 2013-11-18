@@ -47,23 +47,28 @@ namespace CurrencyRatesApi.Tests
             Assert.AreEqual("2013-11-01",rates.EffectiveDate.ToString("yyyy-MM-dd"));
         }
 
+
         [Test]
-        public void Can_Deserialize_CurrenctExchangeRates_Using_ServiceStack_Json()
+        public void Can_Serialize_To_XML()
         {
-            var json = TestRatesJson();
+            var rates = new ExchangeRates
+            {
+                EffectiveDate = DateTime.UtcNow,
+                BaseCurrencyCode = "USD",
+                Rates = new List<Rate>
+                {
+                    new Rate { CurrencyCode = "HKD", ConversionRate = 0.0001m},
+                }
+            };
 
-            var currRates = JsonObject.Parse(json)
-                .ConvertTo<ExchangeRates>(x =>
-                    new ExchangeRates
-                    {
-                        EffectiveDate = x.JsonTo<double>("timestamp").DateTimeFromUnix(),
-                        BaseCurrencyCode = x.Get("base"),
-                        Rates = x.JsonTo<Dictionary<string,decimal>>("rates"),
-                    }
-                );
+            var ser = new System.Xml.Serialization.XmlSerializer(typeof(ExchangeRates));
+            var sb = new StringBuilder();
+            var writer = new StringWriter(sb);
+            ser.Serialize(writer, rates);
+            writer.Close();
+            var text = sb.ToString();
+            Assert.Greater(text.Length, 0);
 
-            Assert.AreEqual("USD", currRates.BaseCurrencyCode);
-            Assert.Greater(currRates.Rates.Keys.Count, 0);
         }
 
         public string TestRatesJson()

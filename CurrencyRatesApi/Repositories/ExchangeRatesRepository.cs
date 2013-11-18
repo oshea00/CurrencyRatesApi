@@ -10,7 +10,14 @@ using ServiceStack.Text;
 
 namespace CurrencyRatesApi.Repositories
 {
-    public class ExchangeRatesRepository
+    public interface IExchangeRatesRepository 
+    {
+        ExchangeRates GetCurrentRates();
+        ExchangeRates GetHistoricalRates(DateTime date);
+    }
+
+
+    public class ExchangeRatesRepository : IExchangeRatesRepository
     {
         string _uriPath;
         string _appId;
@@ -62,11 +69,22 @@ namespace CurrencyRatesApi.Repositories
                     {
                         EffectiveDate = x.JsonTo<double>("timestamp").DateTimeFromUnix(),
                         BaseCurrencyCode = x.Get("base"),
-                        Rates = x.JsonTo<Dictionary<string, decimal>>("rates"),
+                        Rates = ParseRates(x),
                     }
                 );
             }
             return rates;
+        }
+
+        private List<Rate> ParseRates(JsonObject j)
+        {
+            var list = new List<Rate>();
+            var ratesDict = j.JsonTo<Dictionary<string, decimal>>("rates");
+            foreach (var currency in ratesDict.Keys)
+            {
+                list.Add(new Rate { CurrencyCode = currency, ConversionRate = ratesDict[currency] });
+            }
+            return list;
         }
 
         public ExchangeRates GetCurrentRates()

@@ -9,10 +9,10 @@ namespace CurrencyRatesApi.Domain
     {
         public ExchangeRates()
         {
-            Rates = new Dictionary<string, decimal>();
+            Rates = new List<Rate>();
         }
         public DateTime EffectiveDate { get; set; }
         public String BaseCurrencyCode { get; set; }
-        public Dictionary<string, decimal> Rates { get; set; }
+        public List<Rate> Rates { get; set; }
     }
 }
