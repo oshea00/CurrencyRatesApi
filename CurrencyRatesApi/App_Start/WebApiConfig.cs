@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Tracing;
+
+using System.Net.Http.Formatting;
+using System.Web.Http;
+using System.Web.Http.Dispatcher;
+
 
 namespace CurrencyRatesApi
 {
@@ -15,6 +21,7 @@ namespace CurrencyRatesApi
                 routeTemplate: "api/CurrencyRates/{id}",
                 defaults: new { controller = "CurrencyRates", id = RouteParameter.Optional }
             );
+
         }
     }
 }
