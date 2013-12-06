@@ -31,6 +31,8 @@ namespace CurrencyRatesApi.Repositories
         private string GetJsonFromUrl(Uri url)
         {
             var request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.Proxy = WebRequest.GetSystemWebProxy();
+            request.UseDefaultCredentials = true;
             var response = (HttpWebResponse)request.GetResponse();
             var json = "";
 
